@@ -65,7 +65,7 @@ index.php?id=1
 
 Ссылка:
 ```sh
-http://www.site.com/section.php?id=51 
+http://www.asfaa.org/members.php?id=1
 ```
 
 Флаги которые используются в данном мануале:
